@@ -4,54 +4,79 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { ChangeEvent, useEffect, useState } from 'react';
 import { FilterBar } from '../components/FilterBar';
-import { MissionList } from '../components/MissionList.tsx'
+import { LaunchList } from '../components/Launches'
 import styles from '../assets/styles/Home.module.css';
+import { Loader } from '../components/Loader';
+import { Pagination } from '../components/Pagination';
 
-
-interface Mission {
-  description: string;
+interface Launch {
   id: string;
-  manufacturers: string[];
-  twitter: string;
-  website: string;
-  wikipedia: string;
-  name: string;
+  details: string;
+  launch_date_utc: string;
+  rocket: {
+    rocket_name: string;
+  }
+  launch_site: {
+    site_name: string;
+  }
+  mission_name: string;
+  links: {
+    wikipedia: string;
+  }
 }
 
-interface GetMissionsData {
-  missions: Mission[];
+interface GetLaunchesData {
+  launches: Launch[];
 }
 
-interface GetMissionsVars {
+interface GetLaunchesVars {
   limit: number;
-  name: string;
+  offset: number;
+  missionName: string;
 }
 
 const GET_MISSIONS = gql`
-  query GetMissions($limit: Int!, $name: String!) {
-    missions(limit: $limit, find: { name:  $name }) {
-      description
+  query GetMissions($limit: Int!, $offset: Int!, $missionName: String!) {
+    launches(limit: $limit, offset: $offset, find: {mission_name: $missionName}) {
       id
-      manufacturers
-      twitter
-      website
-      wikipedia
-      name
+      details
+      launch_date_utc
+      rocket {
+        rocket_name
+      }
+      launch_site {
+        site_name
+      }
+      mission_name
+      links {
+        wikipedia
+      }
     }
   }
   
 `;
 
 const Home: NextPage = () => {
-  const [filter, setFilter] = useState('');
+  const limit = 9; // TODO: User can change it
 
-  const { loading, data } = useQuery<GetMissionsData, GetMissionsVars>(
+  const [filter, setFilter] = useState('');
+  const [page, setPage] = useState(0);
+
+  const { loading, data } = useQuery<GetLaunchesData, GetLaunchesVars>(
     GET_MISSIONS,
-    { variables: { limit: 10, name: filter } }
+    { variables: { limit: limit, offset: page * limit, missionName: filter } }
   )
 
   const handleFilterChange = (filterValue: string) => {
     setFilter(filterValue)
+  }
+
+  const nextPage = () => {
+    setPage((pvPage) => pvPage + 1);
+  };
+
+  const previousPage = () => {
+    if (page !== 0) setPage((pvPage) => pvPage - 1);
   }
 
   return (
@@ -63,10 +88,15 @@ const Home: NextPage = () => {
       </Head>
 
       <Box mb="3">
-        <FilterBar onFilterChange={handleFilterChange} />
+        <FilterBar placeholder='Filter by mission name' onFilterChange={handleFilterChange} />
       </Box>
+      
+      {loading &&<Loader />}
+      {!loading &&<LaunchList launches={data!.launches} />}
 
-      {!loading &&<MissionList missionList={data!.missions} />}
+      <Box mt="3" mb="3">
+        <Pagination page={page} onNext={nextPage} onPrevious={previousPage} />
+      </Box>
     </div>
   )
 }

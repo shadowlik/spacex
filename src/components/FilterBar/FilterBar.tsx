@@ -4,9 +4,10 @@ import { ChangeEventHandler, useEffect, useState } from 'react';
 export interface FilterBarProps {
     onFilterChange: (search: string) => void;
     debounceTime?: number;
+    placeholder?: string;
 }
 
-export function FilterBar({ onFilterChange, debounceTime = 1000 }: FilterBarProps) {
+export function FilterBar({ onFilterChange, debounceTime = 1000, placeholder = 'Filter' }: FilterBarProps) {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
@@ -20,7 +21,7 @@ export function FilterBar({ onFilterChange, debounceTime = 1000 }: FilterBarProp
 
     return (
         <div>
-            <Input style={{background: '#FFF'}} onChange={(e) => setSearch(e.target.value)} placeholder="Filter Missions" />
+            <Input style={{background: '#FFF'}} onChange={(e) => setSearch(e.target.value)} placeholder={placeholder} />
         </div>
     );
 }
