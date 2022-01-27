@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { ChangeEvent, useEffect, useState } from 'react';
 import { FilterBar } from '../components/FilterBar';
 import { MissionList } from '../components/MissionList.tsx'
-import styles from '../styles/Home.module.css';
+import styles from '../assets/styles/Home.module.css';
 
 
 interface Mission {

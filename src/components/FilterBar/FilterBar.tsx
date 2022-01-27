@@ -20,7 +20,7 @@ export function FilterBar({ onFilterChange, debounceTime = 1000 }: FilterBarProp
 
     return (
         <div>
-            <Input onChange={(e) => setSearch(e.target.value)} placeholder="Filter Missions" />
+            <Input style={{background: '#FFF'}} onChange={(e) => setSearch(e.target.value)} placeholder="Filter Missions" />
         </div>
     );
 }

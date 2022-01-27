@@ -15,7 +15,7 @@ export interface MissionItemProps {
 
 export function MissionItem(props: MissionItemProps) {
   return (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Box style={{background: "#FFF"}} maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
         <Image
           src="https://via.placeholder.com/150x100"
           alt={props.name}
@@ -25,7 +25,7 @@ export function MissionItem(props: MissionItemProps) {
         />
 
       <Box p="6">
-        <Box display="flex" alignItems="baseline">
+        <Box display="flex" alignItems="baseline" justifyContent="space-between">
           <Box
             color="gray.500"
             fontWeight="semibold"
@@ -38,6 +38,8 @@ export function MissionItem(props: MissionItemProps) {
               <Badge colorScheme='purple' mr='3' mb='2' key={manufactureIndex}>{manufacture}</Badge>
               )}
           </Box>
+
+          <a target='_blank' rel="noreferrer" href={props.wikipedia}>Wiki</a>
         </Box>
 
         <Box
