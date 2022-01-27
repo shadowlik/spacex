@@ -68,7 +68,8 @@ const Home: NextPage = () => {
   )
 
   const handleFilterChange = (filterValue: string) => {
-    setFilter(filterValue)
+    if (filterValue !== '') setPage(0);
+    setFilter(filterValue);
   }
 
   const nextPage = () => {
