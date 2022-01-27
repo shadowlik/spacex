@@ -16,6 +16,7 @@ export interface LaunchItemProps {
   mission_name: string;
   links: {
     wikipedia: string;
+    mission_patch: string;
   }
 }
 
@@ -23,13 +24,13 @@ const localDate = (date: string) => new Date(date).toLocaleDateString();
 
 export function MissionItem(props: LaunchItemProps) {
   return (
-    <Box sx={{background: "#FFF", height: '100%'}} maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Box sx={{background: "#FFF", height: '100%'}} px={1} py={2} maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
         <Image
-          src="https://via.placeholder.com/150x100"
+          src={props.links.mission_patch || 'https://via.placeholder.com/150'}
           alt={props.mission_name}
           layout="responsive"
           width={3}
-          height={2}
+          height={3}
         />
 
       <Box p="6">

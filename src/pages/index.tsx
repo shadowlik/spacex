@@ -22,6 +22,7 @@ interface Launch {
   mission_name: string;
   links: {
     wikipedia: string;
+    mission_patch: string;
   }
 }
 
@@ -50,6 +51,7 @@ const GET_MISSIONS = gql`
       mission_name
       links {
         wikipedia
+        mission_patch
       }
     }
   }
